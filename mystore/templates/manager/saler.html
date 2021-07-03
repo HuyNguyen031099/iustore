@@ -1,0 +1,96 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Saler</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container-fliud bg-white pt-5" style="margin-top: 20px;">
+        <div class="row">
+            <!-- Search -->
+            <div class="col-5">
+                <form action="#" method="GET" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Tìm đơn hàng" aria-label="Search" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+
+            <!-- Date -->
+            <div class="col form-inline">
+                <label for="_date">Ngày đặt hàng </label>
+                <div class="form-group">
+                    <div style="margin-right: 10px">
+                        <input type="date" name="from-date" required />
+                    </div>
+                    <div>
+                        -
+                        <input type="date" name="to-date" required style="margin-left: 5px" />
+                    </div>
+                </div>
+                <button class="btn btn-light ml-1" style=" border: 1px solid thistle">
+                    Xuất
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white" style="border-radius: 5px; padding-left: 15px;">
+            <div class="pt-3 d-flex">
+
+                <h4>Đơn hàng</h4>
+
+                <span class="ml-auto mr-2">
+                    <button class="btn btn-danger">
+                        <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
+                        hàng loạt
+                    </button>
+                </span>
+            </div>
+
+            <div>
+                <table class="table table-bordered table-hover" style=" margin-top: 10px">
+                    <colgroup>
+                        <col span="1">
+                        <col span="1">
+                        <col span="1">
+                        <col span="1">
+                        <col span="1">
+                    </colgroup>
+                    <thead style="text-align: center">
+                        <th>Ngày tạo</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng đơn hàng</th>
+                        <th>Trạng thái</th>
+                        <th>Xem Chi tiết</th>
+                        <th>Thao tác</th>
+                    </thead>
+                    <tbody>
+                    {% for order,item in orders %}
+                        <tr>
+                            
+
+
+                            <td>{{order.created_date|date:'Y-m-d '}}</td>
+                            <td>{{item}}</td>
+                            <td>#</td>
+                            
+                            <td>{{order.statusNow}}</td>
+                            <td style="text-align: center">{% if order.statusNow == 'Chờ duyệt' %}
+                                <a href="{% url 'mystore:send-warehouse' order_id=order.id %}" class="btn btn-primary">
+                                    Gửi kho</a>
+
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url 'mystore:view-order' order_id=order.id %}"  class="btn btn-success">Xem đơn hàng </a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

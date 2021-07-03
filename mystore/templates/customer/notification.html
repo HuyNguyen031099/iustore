@@ -1,0 +1,68 @@
+{% extends './customer_base.html' %} {% block title %}
+<title>
+    Tài khoản của tôi
+</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+    #noti_action::after {
+        display: none;
+    }
+</style>
+
+{% endblock style %}
+{% block content %}
+
+
+
+
+<div class="container mt-5">
+    <h3>Thông báo của tôi</h3>
+    <div class="main-body bg-white p-3 mt-3">
+
+        <div class="text-right border-bottom">
+            <button class="btn dropdown-toggle" id="noti_action" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+
+
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                <a class="dropdown-item btn " href="#">Đánh dấu tất cả đã đọc
+                </a>
+                <a class="dropdown-item btn " href="#">Xóa tất cả thông báo</a>
+            </div>
+        </div>
+        {% if listNofi|length == 0 %}
+        <div class="text-center">
+            <h4>Bạn chưa có thông báo</h4>
+
+            <a href="{%url 'mystore:home' %}">Tiếp tục mua sắm</a>
+        </div>
+
+        {% endif %}
+
+        {% for nofi in listNofi %}
+        <div class="row nofi pb-2 border-bottom pt-2">
+            <div class="col-2">{{nofi.time|date:'Y-m-d ' }}
+                <span class="ml-4"><i class="fas fa-receipt fa-2x"></i> </span>
+            </div>
+
+            <div class="col">{{nofi.content}}
+                <a href="#">Chi tiết</a>
+            </div>
+            <div class="col-1">
+                <a href="#" style="color: red;">Xóa</a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+
+</div>
+
+{% endblock content %}

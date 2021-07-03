@@ -1,0 +1,194 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Thêm mới sản phẩm</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container">
+        <form action="{% url 'mystore:import-product' %}" method="POST" enctype="multipart/form-data">>
+            {% csrf_token %}
+            <div class="col pt-2 pb-2 mt-2 bg-light" style="border: 1px solid #f3f3f3;">
+                <h3>Thông tin cơ bản</h3>
+                <input type="hidden" value="{{type_id}}" name="type_id">
+                <div class="col form-group">
+                    <small class="text-muted">(*) là các trường bắt buộc hoàn thành</small>
+                </div>
+                <div class="col form-group">
+                    <label for="name">Tên sản phẩm*</label>
+                    <input class="form-control" name="product-name" id="name" type="text"
+                        placeholder="Nhập tên sản phẩm" required>
+                </div>
+                <div class="col form-inline">
+                    <label for="_image" style="margin-right: 30px;">Hình ảnh sản phẩm*</label>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh bìa</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh 1</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh 2</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh 3</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh 4</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+
+                    <div class="drop-zone mr-2">
+                        <span class="drop-zone__prompt">Ảnh 5</span>
+                        <input type="file" name="image" class="drop-zone__input">
+                    </div>
+                </div>
+
+                {% for attribute in attributes %}
+                <div class="col form-group">
+                    <label for="{{attribute.attribute.id}}">{{attribute.attribute.name}}</label>
+                    <input class="form-control" name="{{attribute.attribute.id}}" type="text"
+                        placeholder="Nhập {{attribute.attribute.name}}" required>
+                </div>
+                {% endfor %}
+
+                <div class="col form-group">
+                    <label for="description">Mô tả sản phẩm*</label>
+                    <textarea class="form-control" name="description" id="description" cols="10" rows="3"></textarea>
+                </div>
+
+
+            </div>
+
+            <div class="col mt-2 pt-2 pb-2 bg-light" style="border: 1px solid #f3f3f3;">
+                <h3>Thông tin bán hàng</h3>
+                <div class="col form-group">
+                    <label for="price">Giá*</label>
+                    <input class="form-control" name="price" id="price" type="text"
+                        placeholder="Nhập giá sản phẩm. Đơn vị 'VND'" required>
+                </div>
+                <div class="col form-group">
+                    <label for="qty">Số lượng*</label>
+                    <input class="form-control" name="qty" id="qty" type="number" placeholder="Nhập só lượng nhập"
+                        required>
+                </div>
+                <div class="col form-group">
+                    <label for="warehouse">Kho hàng*</label>
+                    <select name="warehouse" id="warehouse" class="form-control">
+                        <option value="" style="display: none">Vui lòng chọn</option>
+                        {% for warehouse in warehouses %}
+                        <option value="{{warehouse.id}}">{{warehouse.name}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col form-group mt-2 pt-2 pb-2">
+                <button class="btn btn-info" data-toggle="modal" data-target="#cancel">Hủy</button>
+                <button type="submit" class="btn btn-success">Lưu & Hiển thị</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal cancel -->
+    <div class="modal fade" id="cancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận hủy thêm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc muốn hủy thêm sản phẩm?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" onclick="window.history.go(-1); return false;">Xác
+                        nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script add image -->
+    <script>
+        document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+            const dropZoneElement = inputElement.closest(".drop-zone");
+
+            dropZoneElement.addEventListener("click", (e) => {
+                inputElement.click();
+            });
+
+            inputElement.addEventListener("change", (e) => {
+                if (inputElement.files.length) {
+                    updateThumbnail(dropZoneElement, inputElement.files[0]);
+                }
+            });
+
+            dropZoneElement.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                dropZoneElement.classList.add("drop-zone--over");
+            });
+
+            ["dragleave", "dragend"].forEach((type) => {
+                dropZoneElement.addEventListener(type, (e) => {
+                    dropZoneElement.classList.remove("drop-zone--over");
+                });
+            });
+
+            dropZoneElement.addEventListener("drop", (e) => {
+                e.preventDefault();
+
+                if (e.dataTransfer.files.length) {
+                    inputElement.files = e.dataTransfer.files;
+                    updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+                }
+
+                dropZoneElement.classList.remove("drop-zone--over");
+            });
+        });
+
+        function updateThumbnail(dropZoneElement, file) {
+            let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+            // First time - remove the prompt
+            if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+                dropZoneElement.querySelector(".drop-zone__prompt").remove();
+            }
+
+            // First time - there is no thumbnail element, so lets create it
+            if (!thumbnailElement) {
+                thumbnailElement = document.createElement("div");
+                thumbnailElement.classList.add("drop-zone__thumb");
+                dropZoneElement.appendChild(thumbnailElement);
+            }
+
+            thumbnailElement.dataset.label = file.name;
+
+            // Show thumbnail for image files
+            if (file.type.startsWith("image/")) {
+                const reader = new FileReader();
+
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+                };
+            } else {
+                thumbnailElement.style.backgroundImage = null;
+            }
+        }
+    </script>
+</body>
+{% endblock content %}

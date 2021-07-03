@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style3.css' %}> 
+    {% block title %} {% endblock title %}
+
+    {% block style %}{% endblock style %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark p-3" style="background-color: rgb(1, 127, 255);">
+        <a class="navbar-brand" href="{% url 'mystore:home' %}">IUStore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Danh mục sản phẩm
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px ;">
+                        <h4 class="dropdown-header">Sách</h4>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=3 %}">Sách Giáo Khoa</a>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=4 %}">Sách Tham khảo</a>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=7 %}">Sách Văn Học</a>
+                        
+                        <div class=" dropdown-divider "></div>
+                        <h4 class="dropdown-header">Đồ điện tử</h4>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=1 %}">Laptop/PC</a>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=2 %}">Điện thoại</a>
+                        
+                        <div class=" dropdown-divider "></div>
+                        <h4 class="dropdown-header">Quần Áo</h4>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=5 %}">Thời Trang Nam</a>
+                        <a class="dropdown-item" href="{% url 'mystore:item-type' type_id=6 %}">Thời Trang Nữ</a>
+                        
+                    </div>
+                </li>
+                <li class="nav-item ml-2 mt-1">
+                    <form action="{% url 'mystore:search-item' %}" class="search-product my-2 my-lg-0" method="GET" >
+                        <input type="text" placeholder="Tìm sản phẩm mong muốn ..."
+                            aria-label="Search" class="search-product-input" name="q">
+                        <button class=" btn btn-search-product"
+                            type="submit"><i class="fas fa-search" style="margin-right: 3px;"></i> Tìm kiếm </button>
+                    </form>
+                </li>
+            </ul>
+            <div class="dropdown ">
+                <button class="btn dropdown-toggle" style="color: white;" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-user"></i> 
+                    {% if 'user' not in request.session %}
+                        Tài khoản
+                    {% else %}
+                        {{request.session.user}}
+                    {% endif %}
+
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 250px;">
+                    {% if 'user' not in request.session %}
+                        <a class="dropdown-item btn " href="{% url 'mystore:login' %}">Đăng Nhập</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:register' %}">Đăng Ký</a>
+                    {% else %}
+                        <a class="dropdown-item btn " href="{% url 'mystore:customer-order' %}">Danh sách đơn hàng</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:notification' %}">Thông báo</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:info' %}">Tài khoản của tôi</a>
+                        <div class=" dropdown-divider "></div>
+                        <a class="dropdown-item btn" href="{% url 'mystore:logout' %}">Đăng xuất</a>
+                    {% endif %}
+                </div>
+            </div>
+            <a class="nav-link btn " href="{% url 'mystore:cart' %}">Giỏ hàng <i class="fas fa-shopping-cart"></i></a>
+            <a class="nav-link" href="#">Lịch sử mua hàng</a>
+        </div>
+    </nav>
+    {% block content %} {% endblock content %}
+    <!-- Site footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>Giới thiệu</h6>
+                    <p class="text-justify">Ngày này trong nhịp sống hối hả của con người thì việc giành thời gian để ra ngoài để mua sắm trở nên là 1 điều quá xa sỉ. Những lo lắng về giao thông không an toàn và hạn chế trong việc mua hàng truyền thống có thể tránh được trong khi mua sắm trực tuyến với IUStore.com . Ngoài ra với IUStore.com, bạn cũng không cần phải lo lắng về điều kiện thời tiết. Người tiêu dùng và các khách hàng là những tổ chức, công ty,… đang dần chuyển sang mua sắm trực tuyến nhiều hơn nhằm tiết kiệm thời gian.</p>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Sản phẩm</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/category/c-language/">Sách</a></li>
+                        <li><a href="http://scanfcode.com/category/front-end-development/">Đồ điện tử</a></li>
+                        <li><a href="http://scanfcode.com/category/back-end-development/">Quần áo</a></li>
+                        <li><a href="http://scanfcode.com/category/java-programming-language/">Phụ kiện</a></li>
+                        <li><a href="http://scanfcode.com/category/android/">Trang trí</a></li>
+                        <li><a href="http://scanfcode.com/category/templates/">Đời sống</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Liên kết nhanh</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/about/">Giới thiệu</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Liên hệ</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Đóng góp</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Chính sách bảo mật</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Trụ sở</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2021 All Rights Reserved by
+                        <a href="#">IU</a>.
+                    </p>
+                </div>
+    
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a href="http://facebook.com.vn"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load number_format %}
+{% block title %}
+<title>
+    Thông tin giao hàng | IUStore
+</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container pt-4">
+    <div class="customer-delivery-address">
+        <h3 class="title">
+            Địa chỉ giao hàng
+        </h3>
+        <div class="address-list">
+            <div class="address-item">
+                <p class="name">{{address.receiver}}</p>
+                <p class="address">{{address.address}}</p>
+                <p class="address">Việt Nam</p>
+                <p class="phone">{{address.phone}}</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="delivery-address">
+        <div class="delivery-address-form">
+            <form action="{% url 'mystore:delivery-address/handle-edit' %}" method="post">
+                {% csrf_token %}
+                <div class="form-item">
+                    <label class="form-label">Họ tên</label>
+                    <input type="text" placeholder="Nhập họ tên" name="name" value="{{address.receiver}}" maxlength="50" class="form-input">
+                </div>
+                <div class="form-item">
+                    <label class="form-label">Điện thoại di động</label>
+                    <input type="text" placeholder="Nhập số điện thoại" name="phone" value="{{address.phone}}" maxlength="50" class="form-input">
+                </div>
+                <div class="form-item">
+                    <label class="form-label">Tỉnh/Thành phố</label>
+                    <div class="form-group" style="width: 66.6666%;">
+                        <select name="city" id="city" class="form-control" >
+                            <option value="" style="display: none;">Chọn Tỉnh/Thành Phố</option>
+                            {% for id, city in cities %}
+                                <option value="{{id}},{{city}}">{{city}}</option>                            
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">Quận/Huyện</label>
+                    <div class="form-group" style="width: 66.6666%;">
+                        <select name="district" id="district" class="form-control" >
+                                         
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">Phường/Xã</label>
+                    <div class="form-group" style="width: 66.6666%;">
+                        <select name="ward" id="ward" class="form-control" >                                
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">Địa chỉ</label>
+                    <textarea type="textarea" style="overflow: hidden; height: 50px;" 
+                        placeholder="Ví dụ: 52, đường Trần Hưng Đạo" name="address" maxlength="50" class="form-input"></textarea>
+                </div>
+                    <div style="float: right;">
+                        <button class="btn btn-success" type="submit">Cập nhật</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#city').on('change', function() {
+        const city_id = this.value.split(',')[0]
+        var url_mask = "{% url 'mystore:district-in-city' city_id=12345 %}".replace(/12345/, +(city_id.trim()));
+        $.ajax({
+            url: url_mask,
+            type: 'get',
+            dataType: 'json',
+            success: (res) => {
+                $('#district').html('')
+                $('#district').append('<option value="" style="display: none;">Chọn Quận/Huyện</option>')
+                for (const district of res) {     
+                    console.log(district)              
+                    $('#district').append(`<option value="${district[0] + ',' + district[1]}">${district[1]}</option>`)
+                }
+                
+            }
+        })
+    })
+    $('#district').on('change', function() {
+        const district_id = this.value.split(',')[0]
+        var url_mask = "{% url 'mystore:ward-in-district' district_id=12345 %}".replace(/12345/, +(district_id.trim()));
+        $.ajax({
+            url: url_mask,
+            type: 'get',
+            dataType: 'json',
+            success: (res) => {
+                $('#ward').html('')
+                $('#ward').append('<option value="" style="display: none;">Chọn Xã/Phường</option>')
+                for (const ward of res) {                   
+                    $('#ward').append(`<option value="${ward[0]+','+ward[1]}">${ward[1]}</option>`)
+                }
+                
+            }
+        })
+    })
+</script>
+{% endblock content %}

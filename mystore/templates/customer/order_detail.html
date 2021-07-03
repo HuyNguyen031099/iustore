@@ -1,0 +1,102 @@
+{% extends './customer_base.html' %} 
+{% load number_format %}
+{% load static %}
+{% block title %}
+<title>
+    Tài khoản của tôi
+</title>
+{% endblock title %} {% block content %}
+
+<div class="container mt-5">
+    <div class="customer-order-detail">
+        <div class="heading">
+            <span style="font-size: 22px; font-weight: 300;">Chi tiết đơn hàng {{order.id}}</span>
+            <span style="margin: 0 4px;">-</span>
+            <span style="font-weight: 500;">{{order.statusNow}}</span>
+        </div>
+        <div class="order-date">
+            Ngày đặt hàng: {{order.created_date}}
+        </div>
+        <div class="order-detail">
+            <div class="order-delivery-address detail">
+                <div class="title">
+                    ĐỊA CHỈ NGƯỜI NHẬN
+                </div>
+                <div class="content">
+                    <p class="name">{{order.deliveryAddress.receiver}}</p>
+                    <p class="address">Địa chỉ: {{order.deliveryAddress.address}}</p>
+                    <p class="phone">Điện thoại {{order.deliveryAddress.phone}}</p>
+                </div>
+            </div>
+            <div class="order-shipping-method detail">
+                <div class="title">
+                    HÌNH THỨC GIAO HÀNG
+                </div>
+                <div class="content">
+                    <p>{{order.shipment.shipmentMethod.method_name}}</p>
+                    <p>Phí vận chuyển: {{order.shipment.shipmentMethod.fee|int_format}}đ</p>
+                </div>
+            </div>
+            <div class="payment-method detail">
+                <div class="title">
+                    HÌNH THỨC THANH TOÁN
+                </div>
+                <div class="content">
+                    <p>Thanh toán bằng {{order.payment.paymentmethod.method_name}}</p>
+                </div>
+            </div>
+        </div>
+        <table class="table order-items">
+            <thead>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tạm tính</th>
+            </thead>
+            <tbody>
+                {% for item,qty,imagePath,subTotal in items %}
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            {% with 'images/product/'|add:imagePath as image_path %}
+                                <img src="{% static image_path %}"
+                                    alt="image" width="60px" height="40px">
+                            {% endwith %}
+                            
+                            <div>
+                                <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="text-decoration: none;">{{item.name}}</a>
+                                
+                                <div style="margin-top: 4px;">
+                                    <a href="{% url 'mystore:item/comment' item_id=item.id %}" class="order-product-review">Viết nhận xét</a>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </td>
+                    <td> {{item.price}}</td>
+                    <td>{{qty}}</td>
+                    <td>{{subTotal}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot >
+                <tr style="border-top: none; display: table-row; padding: 10px;">
+                    <td colspan="3">Tạm tính</td>
+                    <td style="text-align: center;">{{totalPrice}} đ</td>
+                </tr>
+                <tr style="border-top: none;">
+                    <td colspan="3">Phí vận chuyển</td>
+                    <td style="text-align: center;">{{order.shipment.shipmentMethod.fee}} đ</td>
+                </tr>
+                <tr style="border-top: none;">
+                    <td colspan="3">Tổng cộng </td>
+                    <td style="color: rgb(255, 59, 39); font-size: 18px; text-align: center;">{{totalPriceWithFee}} đ</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+    </div>
+</div>
+
+{% endblock content %}

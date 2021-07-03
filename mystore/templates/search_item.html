@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load number_format %}
+{% load static %}
+{% block title %}
+<title>
+    IUStore
+</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+
+    <div class="search-summary mt-3">
+        {% if query %}
+            <div class="title">
+                Kết quả tìm kiếm cho '{{query}}' : <span style="color: rgb(137, 137, 137);;"> {{items|length}} kết
+                    quả</span>
+            </div>
+        {% elif type %}
+        <div class="title">
+            Sản phẩm loại : {{type}}
+        </div>
+        {%else%}
+        <div class="title">
+            Tất cả sản phẩm
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="list-search-product">
+        {% for item, path, discount_rate in items %}
+
+        <div class="item d-inline-block"
+            style="display:flex;flex-direction: column; justify-content: space-between; padding: 5px; margin: 10px 25px 30px 25px; width: 215px;  font-family: Arial, Helvetica, sans-serif;">
+            <a href="{% url 'mystore:item-detail' item_id=item.id %}" style="color: black; text-decoration: none;">
+                <div class="thumbnail pb-2 pt-2">
+                    <div class="badge-top">
+                        {% with 'images/product/'|add:path as image_path %}
+                        <img src="{% static image_path %}" width="205px" height="200px"
+                            alt="Máy Tính Bảng Samsung Galaxy">
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="info">
+
+                    <div class="name" style="height: 50px; font-size: 15px;">
+                        {{item.product.name}}
+                    </div>
+                    {% comment %} <div class="row ml-auto ">
+                        <span class="rate">
+                            5 <i class="fas fa-star"></i>
+                        </span>
+                        <span class="review"> (50) </span>
+                    </div> {% endcomment %}
+                    <div class="row ml-auto">
+                        <span class="price">
+                            {{item.product.price|int_format}} ₫
+                        </span>
+                        {% if discount_rate %}
+                        <span class="sale">
+                            {{discount_rate}}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+{% endblock content %}

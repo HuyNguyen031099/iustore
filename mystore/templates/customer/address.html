@@ -1,0 +1,62 @@
+{% extends './customer_base.html' %} {% block title %}
+<title>
+    Tài khoản của tôi
+</title>
+{% endblock title %}
+<style>
+
+
+</style>
+
+{% block style %}
+
+
+{% endblock style %}
+{% block content %}
+
+<div class="container mt-5">
+    <h3>Sổ địa chỉ</h3>
+        {% if add == None %}
+        <div class="main-body bg-white p-3 mt-3 ">
+            <a href="{% url 'mystore:delivery-address/show-edit' %}">
+                <div class="text-center border border-primary pt-3 pb-3">
+                    <i class="fas fa-plus"></i> Thêm địa chỉ mới
+                </div>
+            </a>
+        </div>
+        {% endif %}
+    {% if add == None %}
+    <div class="text-center">
+        <h4>Chưa có địa chỉ giao hàng, chọn thêm</h4>
+
+
+    </div>
+
+    {% endif %}
+
+    
+    <div class="bg-white mt-2 p-2">
+
+        <p>{{add.receiver }}
+            <a href="{% url 'mystore:delivery-address/show-edit' %}" class="float-right mr-5"> Chỉnh sửa</a>
+        </p>
+        <div class="row">
+            <div class="col-2" style="color: cadetblue;">Địa chỉ</div>
+            <span >{{add.address}}</span>
+        </div>
+        <div class="row">
+            <div class="col-2" style="color: cadetblue;">Điện thoại</div>
+            <span >{{add.phone}}</span>
+        </div>
+       
+
+    </div>
+    
+
+</div>
+
+
+
+</div>
+
+{% endblock content %}

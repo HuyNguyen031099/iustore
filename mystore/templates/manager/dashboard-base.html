@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if 'user' not in request.session %}
+    <script>
+        var url = "{% url 'mystore:login' %}"
+        window.location.href = url;
+    </script>
+
+    {% endif %}
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style2.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style3.css' %}>
+    {% block title %} {% endblock title %}
+
+    {% block style %}{% endblock style %}
+
+</head>
+<style>
+    .sidenav {
+        height: 1024;
+        width: 100%;
+
+    }
+
+    .sidenav-item {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+
+        color: #818181;
+        display: block;
+
+    }
+
+    .main {}
+</style>
+
+
+<body>
+    <!-- Top -->
+
+    <nav class="navbar navbar-expand-sm  justify-content-center " style="background-color: white">
+        <li class="nav-item sidenav-item mr-auto">
+            <a href="{% url 'mystore:product' %}" class="d-flex align-items-center justify-content-center"
+                style="color:rgb(1, 127, 255); text-decoration: none;">
+                <div class="brand h2">
+                    E-Commerce
+                </div>
+            </a>
+        </li>
+
+        <ul class=" navbar-nav ml-auto">
+            <li class="nav-item">
+                <div class="dropdown border-right ">
+                    <button class="btn dropdown-toggle" style="border-radius: 100px;" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user fa-2x"></i> Tài khoản
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item btn " href="#">Hồ Sơ Shop</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:logout' %}">Đăng Xuất</a>
+
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item pr-5">
+                <a class="btn" href="#"><i class="far fa-2x fa-bell"></i></i></a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+    <!-- Side Left -->
+    <div class="row">
+        <div class="col-3">
+            <div class="sidenav navbar navbar-dark " style="background-color: rgb(1, 127, 255);">
+
+                <ul class="navbar-nav mb-auto ">
+
+
+                    <li class=" nav-item pt-5">
+                        <form class="form-inline  bg-white" style="width: 100%;">
+                            <input class="form-control " type="search" placeholder="Bạn tìm gì..." aria-label="Search">
+                            <button class="btn " type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+
+                    </li>
+                    <!-- Van chuyen -->
+                    <li class=" navbar-text  mr-auto">
+                        Kho hàng
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:warehouse' %}">Đóng gói sản phẩm</a>
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:product' %}">Nhập / Xuất Kho</a>
+                    </li>
+                    <!-- Van chuyen -->
+                    <li class=" navbar-text  mr-auto">
+                        Vận chuyển
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:shipper' %}">Quản lý vận chuyển</a>
+                    </li>
+
+
+                    <!-- Quan ly san pham -->
+                    <li class=" navbar-text  mr-auto">
+                        Quản lý bán hàng
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:new-product' %}">Thêm sản phẩm</a>
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="{% url 'mystore:product' %}">Danh sách sản phẩm</a>
+                    </li>
+
+                    <!-- Quan ly ban hang -->
+                    <li class=" navbar-text  mr-auto">
+                        Quản lý bán hàng
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="/mystore/saler">Tất cả đơn hàng</a>
+                    </li>
+
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="#">Trả hàng / hoàn tiền</a>
+                    </li>
+
+                    <!-- Thong ke -->
+                    <li class=" navbar-text  mr-auto">
+                        Dữ liệu
+                    </li>
+                    <li class="nav-item sidenav-item mr-auto">
+                        <a class="nav-link " href="saler-statistic.html">Thống kê bán hàng</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="main">
+
+                {% block content %} {% endblock content %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Site footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>Giới thiệu</h6>
+                    <p class="text-justify">IUStore.com Ngày này trong nhịp sống hối hả của con người thì việc giành thời gian để ra ngoài để mua sắm trở nên là 1 điều quá xa sỉ. Những lo lắng về giao thông không an toàn và hạn chế trong việc mua hàng truyền thống có thể tránh được trong khi mua sắm trực tuyến. Với mua sắm trực tuyến(online), bạn cũng không cần phải lo lắng về điều kiện thời tiết. Người tiêu dùng và các khách hàng là những tổ chức, công ty,… đang dần chuyển sang mua sắm trực tuyến nhiều hơn nhằm tiết kiệm thời gian.</p>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Sản phẩm</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/category/c-language/">Sách</a></li>
+                        <li><a href="http://scanfcode.com/category/front-end-development/">Đồ điện tử</a></li>
+                        <li><a href="http://scanfcode.com/category/back-end-development/">Quần áo</a></li>
+                        <li><a href="http://scanfcode.com/category/java-programming-language/">Phụ kiện</a></li>
+                        <li><a href="http://scanfcode.com/category/android/">Trang trí</a></li>
+                        <li><a href="http://scanfcode.com/category/templates/">Đời sống</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Liên kết nhanh</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/about/">Giới thiệu</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Liên hệ</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Đóng góp</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Chính sách bảo mật</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Trụ sở</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2021 All Rights Reserved by
+                        <a href="#">IU</a>.
+                    </p>
+                </div>
+    
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

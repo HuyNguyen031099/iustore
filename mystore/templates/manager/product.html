@@ -1,0 +1,123 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Saler</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container-fliud bg-white pt-5" style="margin-top: 20px;">
+        <!-- <div class="row">
+          
+            <div class="col-5">
+                <form action="#" method="GET" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Tìm đơn hàng" aria-label="Search" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+
+            
+            <div class="col form-inline">
+                <label for="_date">Ngày đặt hàng </label>
+                <div class="form-group">
+                    <div style="margin-right: 10px">
+                        <input type="date" name="from-date" required />
+                    </div>
+                    <div>
+                        -
+                        <input type="date" name="to-date" required style="margin-left: 5px" />
+                    </div>
+                </div>
+                <button class="btn btn-light ml-1" style=" border: 1px solid thistle">
+                    Xuất
+                </button>
+
+            </div>
+        </div> -->
+
+        <!-- Table -->
+        <div class="bg-white" style="border-radius: 5px; padding-left: 15px;">
+            <div class=" border-bottom">
+                <a href="{% url 'mystore:product' %}" class="btn  border-right ml-2"> Tất cả</a>
+
+                <a href="{% url 'mystore:product-active' %}" class="btn">Đang bán</a>
+            </div>
+            <div class="pt-3">
+                {% if msg %}
+                <h4>Danh sách sản phẩm đang bán</h4>
+                {% else %}
+                <h4>Danh sách sản phẩm ( {{products|length}} sản phẩm)
+
+                    <a href="{% url 'mystore:new-product' %}" class=" btn btn-success" style="margin-left: 50px;">Thêm
+                        sản phẩm</a>
+                </h4>
+                {% endif %}
+
+                <!-- <span class="ml-auto mr-2" >
+                    <button class="btn btn-danger">
+                        <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
+                        hàng loạt
+                    </button>
+                </span>
+            </div> -->
+                <div>
+                    <table class="table table-bordered" style="max-width: 100%; margin-top: 10px">
+                        <colgroup>
+                            <col span="1" style="width: 30%" />
+                            <col span="1" style="width: 15%" />
+                            <col span="1" style="width: 15%" />
+                            <col span="1" style="width: 15%" />
+                            <col span="1" style="width: 15%" />
+                            <col span="1" style="width: 20%" />
+                        </colgroup>
+                        <thead style="text-align: left">
+                            <th>Tên sản phẩm</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Loại hàng hóa</th>
+                            <th>Giá</th>
+                            <th>Còn lại</th>
+                            <th>Thao tác</th>
+                        </thead>
+                        <tbody>
+
+                            {% for product in products%}
+
+                            <tr>
+                                <td>{{product.name}}</td>
+                                <td>{{product.id}}</td>
+                                <td>{{product.type.name}}</td>
+                                <td>{{product.price}}</td>
+                                <td>{{product.qty_in_stock}}</td>
+                                <td>
+                                    <a href="{% url 'mystore:show-edit-product' product_id=product.id %}"><span><i class="fas fa-edit"></i></span></a>
+                                    <a href="{% url 'mystore:delete-product' product_id=product.id %}"><span><i class="fa fa-trash ml-3" aria-hidden="true" data-toggle="modal" data-target="#delete"></i></span></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button class="btn btn-dark"><a href="{% url 'mystore:get-list' %}" style="text-decoration: none; color: white;">Chọn sản phẩm lên kệ</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Xóa sản phẩm thành công!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

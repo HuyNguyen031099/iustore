@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <!-- <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}> -->
+    <title>Đăng nhập</title>
+    <style>
+        .login-form {
+            width: 60%;
+            border-radius: 5px;
+        }
+
+        .form-bottom {
+            font-size: 15px;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-white">
+        <a class="navbar-brand " href="{% url 'mystore:home' %}" style="font-size: 25px; font-weight: 500;">IUStore</a>
+        <div class="ml-3" style="font-size: 20px; font-weight: 500;">
+            Đăng nhập
+        </div>
+        <div class="ml-auto pr-5">
+            <a class="nav-link p-1 " href="#"> <i class="fa fa-question-circle" aria-hidden="true"></i> Hỗ trợ</a>
+        </div>
+    </nav>
+    <div class="login-main pb-5 " style="background-color: #4285DE;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col ">
+                <div class="login-form mt-2  bg-white">
+                    <div class="login-form-info p-3">
+                        <form action="{% url 'mystore:login' %}" method="POST">
+                            {% csrf_token %}
+                            <h4 class="form-body mt-3 ">Đăng nhập</h4>
+                            <input type="text" class="form-control mb-4 mt-5"
+                                placeholder="Nhập email hoặc tên đăng nhập" name="username" required>
+                            <input type="password" class="form-control mb-4" placeholder="Mật khẩu" name="password"
+                                required>
+                            <button type="submit" style="width: 100% ;" class=" text-center btn btn-primary">Đăng
+                                nhập</button>
+
+                        </form>
+                        <div class="form-bottom">
+                            <a href="#">Quên mật khẩu</a>
+                            <br>
+                            Bạn chưa có tài khoản? <a href="#">Đăng ký</a>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

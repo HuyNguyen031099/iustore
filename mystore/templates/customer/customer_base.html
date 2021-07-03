@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style3.css' %}> 
+    
+     {% block title %} {% endblock title %} {% block style %}{% endblock style %}
+</head>
+<style>
+    .sidenav {
+        height: 1024px;
+        padding-top: 20px;
+        margin-left: 50px;
+    }
+    
+    .slidenav-btn {
+        text-align: left;
+        width: 100%;
+    }
+    
+    .main {}
+</style>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark p-3" style="background-color: rgb(1, 127, 255);">
+        <a class="navbar-brand" href="{% url 'mystore:home' %}">IUStore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item mt-1" style="margin-left: 200px;">
+                    <form action="{% url 'mystore:search-product' %}" class="search-product my-2 my-lg-0" method="GET">
+                        <input type="text" placeholder="Tìm sản phẩm mong muốn ..." aria-label="Search" class="search-product-input" name="q" style="width: 550px;">
+                        <button class=" btn btn-search-product" type="submit" style="color: white;"><i
+                                class="fas fa-search" style="margin-right: 3px;"></i> Tìm kiếm </button>
+                    </form>
+                </li>
+            </ul>
+            <div class="dropdown ">
+                <button class="btn dropdown-toggle" style="color: white;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-user"></i>
+
+                    {{request.session.user}}
+
+
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 250px;">
+
+                    <a class="dropdown-item btn " href="{% url 'mystore:customer-order' %}">Danh sách đơn hàng</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:notification' %}">Thông báo</a>
+                        <a class="dropdown-item btn " href="{% url 'mystore:info' %}">Tài khoản của tôi</a>
+                    <div class=" dropdown-divider "></div>
+                    <a class="dropdown-item btn" href="{% url 'mystore:logout' %}">Đăng xuất</a>
+
+                </div>
+            </div>
+            <a class="nav-link btn " href="{% url 'mystore:cart' %}">Giỏ hàng <i class="fas fa-shopping-cart"></i></a>
+
+        </div>
+    </nav>
+
+    <!-- Side Bar -->
+    <div class="row">
+        <div class="sidenav navbar navbar-light col-2 " style="background-color: #f8f9fa !important;">
+
+            <ul class="navbar-nav mb-auto ">
+
+                <li class=" navbar-text  mr-auto">
+                    <div class="row ml-2">
+                        <span><i class="far fa-user fa-3x"></i></span>
+                        <div class="col">
+                            <div> Tài khoản</div>
+                            <div style="font-weight: 700; font-size: 20px;">
+                                {{request.session.user}}
+                            </div>
+
+                        </div>
+                    </div>
+
+                </li>
+                <li class="nav-item sidenav-item mr-auto">
+                    <a class="" href="{% url 'mystore:info' %}"><button class="slidenav-btn btn btn-light"> <i
+                                class="fa fa-user" aria-hidden="true"></i> Thông tin tài khoản</button></a>
+                </li>
+                <li class="mr-auto">
+                    <a class="" href="{% url 'mystore:notification' %}"><button class="slidenav-btn btn btn-light"> <i
+                                class="fa fa-bell" aria-hidden="true"></i> Thông báo của tôi</button></a>
+                </li>
+                <li class="nav-item sidenav-item mr-auto">
+                    <a class="" href="{% url 'mystore:customer-order' %}"><button class="slidenav-btn btn btn-light"><i
+                                class="fas fa-receipt"></i> Đơn
+                            hàng
+                            của tôi</button></a>
+                </li>
+                <li class="nav-item sidenav-item mr-auto">
+                    <a class="" href="{% url 'mystore:customer-address' %}"><button class="slidenav-btn btn btn-light"><i class="fa fa-map-marker"
+                                aria-hidden="true"></i> Địa chỉ của tôi</button></a>
+                </li>
+                <li class="nav-item sidenav-item mr-auto">
+                    <a class="" href="#"><button class="slidenav-btn btn btn-light"><i class="far fa-credit-card"></i>
+                            Thông
+                            tin thanh toán</button></a>
+                </li>
+                <li class="nav-item sidenav-item mr-auto">
+                    <a class="" href="#"><button class="slidenav-btn btn btn-light"><i class="fas fa-star-half-alt"></i>
+                            Nhận xét của tôi</button></a>
+                </li>
+
+
+
+
+
+            </ul>
+
+        </div>
+        <!-- Side Bar -->
+        <div class="main col">
+
+            {% block content %} {% endblock content %}
+        </div>
+    </div>
+    <!-- Site footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>Giới thiệu</h6>
+                    <p class="text-justify">IUStore.com Ngày này trong nhịp sống hối hả của con người thì việc giành thời gian để ra ngoài để mua sắm trở nên là 1 điều quá xa sỉ. Những lo lắng về giao thông không an toàn và hạn chế trong việc mua hàng truyền thống có thể tránh được trong khi mua sắm trực tuyến. Với mua sắm trực tuyến(online), bạn cũng không cần phải lo lắng về điều kiện thời tiết. Người tiêu dùng và các khách hàng là những tổ chức, công ty,… đang dần chuyển sang mua sắm trực tuyến nhiều hơn nhằm tiết kiệm thời gian.</p>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Sản phẩm</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/category/c-language/">Sách</a></li>
+                        <li><a href="http://scanfcode.com/category/front-end-development/">Đồ điện tử</a></li>
+                        <li><a href="http://scanfcode.com/category/back-end-development/">Quần áo</a></li>
+                        <li><a href="http://scanfcode.com/category/java-programming-language/">Phụ kiện</a></li>
+                        <li><a href="http://scanfcode.com/category/android/">Trang trí</a></li>
+                        <li><a href="http://scanfcode.com/category/templates/">Đời sống</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-xs-6 col-md-3">
+                    <h6>Liên kết nhanh</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/about/">Giới thiệu</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Liên hệ</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Đóng góp</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Chính sách bảo mật</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Trụ sở</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2021 All Rights Reserved by
+                        <a href="#">IU</a>.
+                    </p>
+                </div>
+    
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

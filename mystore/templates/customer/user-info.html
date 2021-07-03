@@ -1,0 +1,58 @@
+{% extends './customer_base.html' %} {% block title %}
+<title>
+    Tài khoản của tôi
+</title>
+{% endblock title %} {% block content %}
+
+
+<div class="container mt-5">
+    <h4>Thông tin tài khoản</h4>
+    <div class="main-body bg-white p-3 mt-3">
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
+                <label for="fullName" class="input-label">Họ và tên</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                <label>{{customer.member}}</label>
+            </div>
+        </div>
+
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
+                <label for="phone" class="input-label">Số điện thoại</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                <label>{{customer.member.phone}}</label>
+            </div>
+        </div>
+
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
+                <label for="email" class="input-label">Email</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                <label>{{customer.member.email}}</label>
+            </div>
+        </div>
+        <div class="row pt-2 pb-2">
+            <div class="col-2">
+                <label for="email" class="input-label">Giới tính</label>
+            </div>
+            <div class="col" style="max-width: 50%;">
+                {% if customer.member.gender == 1 %}
+                <label>Nam</label>
+
+                {%elif customer.member.gender == 2 %}
+                <label>Nữ</label>
+                {%else%}
+                Khác
+                  
+                {% endif %}
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

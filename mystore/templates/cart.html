@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load number_format %}
+{% block title %}
+<title>
+    Giỏ hàng | IUStore
+</title>
+{% endblock title %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container pt-4">
+    <div class="cart">
+        <div class="cart-inner">
+            <div class="cart-title">
+                <h5 style="color: rgb(51,51,51); font-size: 18px;text-transform: uppercase; font-weight: 500;">
+                    {% if msg %}
+                    Giỏ hàng trống
+                    {% else %}
+                    Giỏ hàng
+                    <small style="font-size: 14px; text-transform: none;">( {{ items|length }} sản phẩm )</small>
+                    {% endif %}
+                </h5>
+            </div>
+
+            <div class="cart-item-group">
+                {% for item, qty, img_path in items %}
+                <div class="cart-item">
+                    <div class="cart-item-inner">
+                        <div class="card-item-img">
+                            <a href="{% url 'mystore:item-detail' item_id=item.id %}">
+                                {% with 'images/product/'|add:img_path as image_path %}
+                            <img src="{% static image_path %}"
+                                width="70px" height="50px" alt="Máy Tính Bảng Samsung Galaxy">
+                                {% endwith %}
+                            </a>
+                        </div>
+                        <div class="cart-item-content">
+                            <div class="cart-item-desc">
+                                <a class="card-item-name" href="{% url 'mystore:item-detail' item_id=item.id %}">
+                                    {{item.name}} </a>
+                                <a class="cart-item-del" href="{% url 'mystore:cart/delete' item_id=item.id %}">Xóa</a>
+                            </div>
+                            <div class="cart-item-detail">
+                                <div class="cart-item-price">
+                                    <p style="font-size: 16px; font-weight: 500;"> {{item.price|int_format}} đ</p>
+                                </div>
+                                <div class="qty">
+                                    <div class="qty-input">
+                                        <button class="qty-btn qty-minus" style="border-right: none;">
+                                            <img src="{% static 'images/icons-remove.svg' %}" alt="icon remove">
+                                        </button>
+                                        <input type="hidden" value="{{item.id}}" class="item-id">
+                                        <input type="text" value="{{qty}}" class="qty-value">
+                                        <button class="qty-btn qty-add" style="border-left: none;">
+                                            <img src="{% static 'images/icons-add.svg' %}" alt="icon remove">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!--  -->
+            </div>
+            <!--  -->
+        </div>
+        <div class="cart-total-prices">
+            <div class="cart-total-prices-inner">
+                <div class="shipping-address">
+                    <p class="heading">
+                        <span style="display: inline-block; font-size: 14px; color: rgb(36, 36, 36); font-weight: 500;">
+                            Giao tới
+                        </span>
+                        <a href="{%url 'mystore:delivery-address/show-edit'%}" style="text-decoration: none;">Thay đổi</a>
+                    </p>
+
+                    <p style="margin-bottom: 10px;">
+                        <b class="cart-customer-name">{{deliveryAddress.receiver}}</b>
+                        <b class="cart-customer-phone">{{deliveryAddress.phone}}</b>
+                    </p>
+                    <p class="cart-customer-address">{{ deliveryAddress.address}}</p>
+                </div>
+                <div class="prices-total">
+                    <span class="prices-text">
+                        Thành tiền
+                    </span>
+                    <span class="prices-value" id="totalPrice">{{totalPrice|int_format}} VND</span>
+                </div>
+                <div class="cart-submit">
+                    <a href="{% url 'mystore:checkout' %}" style="text-decoration: none;"><button id="checkoutBtn"
+                            class="btn btn-cart-submit">Đặt
+                            hàng</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/add-to-cart.js' %}"></script>
+{% endblock content %}

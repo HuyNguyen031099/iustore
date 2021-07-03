@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load number_format %}
+{% block title %}
+<title>
+    Giỏ hàng | IUStore
+</title>
+{% endblock title %}
+
+{% block style %}
+{% endblock style %}
+
+{% block content %}
+<div class="container pt-4">
+    <form action="{% url 'mystore:handle-checkout' %}" method="post">
+        {% csrf_token %}
+        <div class="cart">
+            <div class="cart-inner">
+                <div class="cart-title">
+                    <h5 style="color: rgb(51,51,51); font-size: 18px;text-transform: uppercase; font-weight: 500;">
+                        Thanh toán
+                        <small style="font-size: 14px; text-transform: none;">(Đặt mua)</small>
+                    </h5>
+                </div>
+                <div class="cart-item-group" style="border-radius: 4px; padding: 4px 8px;">
+
+                    <div class="payment-input">
+                        <label for="shipment_method" class="payment-label-input">Chọn hình thức giao hàng</label>
+                        <select class="form-control" name="shipment_method" id="shipment_method">
+                            {% for shipmentMethod in shipmentMethods %}
+                            <option value="{{shipmentMethod.id}}">{{shipmentMethod.method_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="payment-input">
+                        <label for="payment_method" class="payment-label-input">Chọn phương thức thanh toán</label>
+                        <select class="form-control" name="payment_method" id="payment_method">
+                            <option value="" style="display: none;">Chọn hình thức thanh toán</option>
+                            {% for paymentMethod in paymentMethods %}
+                            <option value="{{paymentMethod.method_name}}">{{paymentMethod.method_name}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <div class="payment-input" id="bankInput" style="display: none; padding: 10px 40px;">
+                        <div class="form-group">
+                            <label for="bank">Ngân hàng</label>
+                            <select class="form-control" name="bank" id="bank" style="width: 50%;">
+                                {% for bank in banks %}
+                                <option value="{{bank.id}}">{{bank.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_name">Tên chủ thẻ</label>
+                            <input style="width: 50%;" type="text" class="form-control" name="customer_name"
+                                id="customer_name" placeholder="Nhập tên chủ thẻ">
+                        </div>
+                        <div class="form-group">
+                            <label for="card_code">Mã số thẻ</label>
+                            <input style="width: 50%;" type="text" class="form-control" name="card_code" id="card_code"
+                                placeholder="Nhập mã số thẻ">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--  -->
+            <div class="cart-total-prices">
+                <div class="cart-total-prices-inner">
+                    <div class="shipping-address">
+                        <p class="heading">
+                            <span
+                                style="display: inline-block; font-size: 14px; color: rgb(36, 36, 36); font-weight: 500;">
+                                Giao tới
+                            </span>
+                            <a href="{%url 'mystore:delivery-address/show-edit'%}" style="text-decoration: none;">Thay
+                                đổi</a>
+                        </p>
+
+                        <p style="margin-bottom: 10px;">
+                            <b class="cart-customer-name">{{deliveryAddress.receiver}}</b>
+                            <b class="cart-customer-phone">{{deliveryAddress.phone}}</b>
+                        </p>
+                        <p class="cart-customer-address">{{ deliveryAddress.address}}</p>
+                    </div>
+                    <div class="prices-total">
+                        <span class="prices-text">
+                            Thành tiền
+                        </span>
+                        <span class="prices-value" id="totalPrice">{{totalPrice|int_format}} VND</span>
+                    </div>
+                    <div class="cart-submit">
+                        <button id="checkoutBtn" class="btn btn-cart-submit">Đặt mua</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('#payment_method').click(function () {
+        const method_name = this.value
+        if (method_name == "Thẻ ATM") {
+            $('#bankInput').show()
+        } else {
+            $('#bankInput').hide()
+        }
+    })
+</script>
+<script src="{% static 'js/add-to-cart.js' %}"></script>
+{% endblock content %}

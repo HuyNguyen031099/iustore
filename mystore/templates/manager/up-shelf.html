@@ -1,0 +1,30 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Chọn sản phẩm bán</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container">
+        <h3 class="mt-2 mb-2">Danh sách sản phẩm</h3>
+        <table class="table">
+            <thead class="thead-dark">
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Còn lại</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for product in up %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.qty_in_stock}}</td>
+                    <td><button class="btn btn-info"><a href="{% url 'mystore:up-shelf-form' product_id=product.id %}" style="text-decoration: none; color: white;">Chọn</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% endblock content %}

@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/lan.jpg' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'css/style2.css' %}>
+    {% block title %} 
+        <title>Đăng kí</title>
+    {% endblock title %}
+</head>
+{% block content %}
+<!-- Main content -->
+<body class="bg-register" style="background-image: url('{% static 'images/lan.jpg'%}')">
+    <nav class="navbar navbar-light navbar-expand-lg bg-white">
+
+        <a class="navbar-brand " href="{% url 'mystore:home' %}">IUStore</a>
+        <div class="ml-auto pr-5">
+            <a class="nav-link p-1 " href="#"> <i class="fa fa-question-circle" aria-hidden="true"></i> Hỗ trợ</a>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <form action="{% url 'mystore:register' %}" method="POST" class="form-horizontal validate-form" role="form">
+            {% csrf_token %}
+            <h2>Registration</h2>
+            <div class="form-group col">
+                <small class="text-muted">(*) là các trường yêu cầu bắt buộc cần điền thông tin</small>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col col-form-label">Họ tên* </label>
+                <div class="col-sm-11">
+                    <input type="text" id="name" name="name" placeholder="Họ tên" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="col col-form-label">Email* </label>
+                <div class="col-sm-11">
+                    <input type="email" id="email" name="email" placeholder="Email" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username" class="col col-form-label">Tên đăng nhập*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="usr" name="usr" placeholder="Tên đăng nhập" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col col-form-label">Mật khẩu*</label>
+                <div class="col-sm-11">
+                    <input type="password" id="pwd" name="password" placeholder="Mật khẩu" class="form-control" data-rule-password="true" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col col-form-label">Xác nhận mật khẩu*</label>
+                <div class="col-sm-11">
+                    <input type="password" id="repwd" name="reconfirm" placeholder="Xác nhận mật khẩu" class="form-control" data-rule-email="true" data-rule-equalTo="#password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthDate" class="col col-form-label">Ngày sinh*</label>
+                <div class="col-sm-11">
+                    <input type="date" id="birthDate" name="dob" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber" class="col col-form-label">Số điện thoại*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="phoneNumber" name="phone" placeholder="Số điện thoại" class="form-control" required>
+                </div>
+            </div>
+
+            <label for="address" class="col col-form-label">Địa chỉ</label>
+            <div class="col form-group">
+                <label for="city" class="col col-form-label">Thành phố*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="city" name="city" placeholder="" class="form-control" required>
+                </div>
+            </div>
+            <div class="col form-group">
+                <label for="district" class="col col-form-label">Tỉnh/quận*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="district" name="district" placeholder="" class="form-control" required>
+                </div>
+            </div>
+            <div class="col form-group">
+                <label for="text" class="col col-form-label">Xã/phường*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="ward" name="ward" placeholder="" class="form-control" required>
+                </div>
+            </div>
+            <div class="col form-group">
+                <label for="description" class="col col-form-label">Mô tả địa chỉ*</label>
+                <div class="col-sm-11">
+                    <input type="text" id="addr" name="addr" placeholder="Mô tả địa chỉ chi tiết" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col col-form-label">Giới tính*</label>
+                <div class="col form-row">
+                    <div class="row">
+                        <div class="form-inline col ml-1" style="width: 100px;">
+                            <input type="radio" id="maleRadio" name="gender" value="Male">
+                            <label for="male" class="ml-1">Nam</label>
+                        </div>
+                        <div class="form-inline col ml-1" style="width: 100px;">
+                            <input type="radio" id="femaleRadio" name="gender" value="Female">
+                            <label for="female" class="ml-1">Nữ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-inline col">
+                    <input class="mr-1" type="checkbox" id="accept" name="accept" required>
+                    <span>Tôi đồng ý với các điều khoản và chính sách của cửa hàng.</span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+
+            <div class="form-group mt-3">
+                <div class="form-inline col">
+                    <span>Nếu đã có tài khoản, hãy <a href="{% url 'mystore:login' %}">đăng nhập</a> .</span>
+                </div>
+            </div>
+        </form> <!-- /form -->
+    </div>
+</body>
+{% endblock content %}

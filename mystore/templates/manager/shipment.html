@@ -1,0 +1,326 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Saler</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container-fluid" style="margin-top: 20px;">
+        <div class="row">
+
+            <!-- <div class="col-5">
+                <form action="#" method="GET" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Tìm đơn hàng" aria-label="Search" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+
+           
+            <div class="col form-inline">
+                <label for="_date" style="margin-right: 10px">Ngày đặt hàng </label>
+                <div class="form-group">
+                    <div style="margin-right: 10px">
+                        <input type="date" name="from-date" required />
+                    </div>
+                    <div>
+                        -
+                        <input type="date" name="to-date" required style="margin-left: 5px" />
+                    </div>
+                </div>
+                <button class="btn btn-light" style="margin-right: 10px; margin-left: 10px; border: 1px solid thistle">
+                    Xuất
+                </button>
+                <button class="btn btn-light" style="border: 1px solid thistle;">
+                    <span><i class="fa fa-list-alt" aria-hidden="true"></i></span>
+                </button>
+            </div>
+    </div> -->
+
+            <!-- Table -->
+            <div class="bg-light" style="border-radius: 5px; padding-left: 15px;">
+                <div class="mt-5">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-all"
+                                role="tab" aria-controls="nav-home" aria-selected="true"
+                                style="color: #4285DE !important;">Tất cả</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-undone"
+                                role="tab" aria-controls="nav-profile" aria-selected="false"
+                                style="color: #4285DE !important;">Chưa xử
+                                lý</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-done"
+                                role="tab" aria-controls="nav-contact" aria-selected="false"
+                                style="color: #4285DE !important;">Đã xử
+                                lý</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-- Tab all -->
+                        <div class="tab-pane fade show active" id="nav-all" role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+                            <div class="form-inline mt-3 mb-3" style="float: right;">
+                                <div class="form-group">
+                                    <label for="_sort">Sắp xếp theo</label>
+                                    <select class="form-control ml-2 mr-3" name="_sortby" id="_sortby">
+                                        <option value="1">Thu Uyen</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger">
+                                        <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
+                                        hàng loạt
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <table class="table table-hover table-bordered"
+                                    style="width: 100%; margin-top: 20px">
+
+                                    <thead style="text-align: center">
+
+                                        <th>No</th>
+                                        <th style="width: 250px ;">Đơn hàng</th>
+                                        <th>Người nhận</th>
+                                        <th style="width: 250px ;">Địa chỉ</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thao tác</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for order,item in orders %}
+
+
+                                        <tr>
+                                            <td>{{order.id}}</td>
+                                            <td>{{item}}
+                                                <a href="#">Chi tiết</a>    
+                                            
+                                            </td>
+                                            <td>{{order.deliveryAddress.receiver}}</td>
+                                            <td>{{order.deliveryAddress.address}}</td>
+                                            <td>{{order.statusNow}}</td>
+                                            <td>
+                                                {% if order.statusNow == 'Đợi giao' %}
+                                                <a href="{% url 'mystore:shipping' order_id=order.id %}"
+                                                    class="btn btn-primary">Nhận đơn</a>
+                                                {% elif order.statusNow == 'Đang giao' %}
+
+                                                <a href="#" class="btn btn-danger" >Hủy đơn</a>
+                                                <a href="{% url 'mystore:finished' order_id=order.id %}" class="btn btn-success">Giao xong</a>
+                                                {%else%}
+                                                <a class="btn btn-info" data-toggle="modal" data-target="#order-detail">Xem đơn hàng</a>
+                                                {% endif %}
+
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Tab undone -->
+                        <div class="tab-pane fade" id="nav-undone" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="tab-pane fade show active" id="nav-all" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                <div class="form-inline mt-3 mb-3" style="float: right;">
+                                    {% comment %} <div class="form-group">
+                                        <label for="_sort">Sắp xếp theo</label>
+                                        <select class="form-control ml-2 mr-3" name="_sortby" id="_sortby">
+                                            <option value="1">Thu Uyen</option>
+                                        </select>
+                                    </div> {% endcomment %}
+                                    <div>
+                                        <button class="btn btn-danger">
+                                            <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
+                                            hàng loạt
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <table class="table" style="max-width: 100%; margin-top: 20px">
+                                        <colgroup>
+                                            <col span="1" style="width: 30%" />
+                                            <col span="1" style="width: 15%" />
+                                            <col span="1" style="width: 15%" />
+                                            <col span="1" style="width: 15%" />
+                                            <col span="1" style="width: 15%" />
+                                            <col span="1" style="width: 20%" />
+                                        </colgroup>
+                                        <thead style="text-align: center">
+                                            <th>Sản phẩm</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Trạng thái</th>
+                                            <th>Đếm ngược</th>
+                                            <th>Vận chuyển</th>
+                                            <th>Thao tác</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>#</td>
+                                                <td>#</td>
+                                                <td>#</td>
+                                                <td>#</td>
+                                                <td>Xem</td>
+                                                <td>
+                                                    <button class="btn btn-success"><span><i class="fa fa-check-square"
+                                                                aria-hidden="true"></i></span></button>
+                                                    <button class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#modal-reason"><span><i class="fa fa-trash"
+                                                                aria-hidden="true"></i></span></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab done -->
+                        <div class="tab-pane fade" id="nav-done" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <div class="tab-pane fade show active" id="nav-all" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                <div class="form-inline mt-3 mb-3" style="float: right;">
+                                    <div class="form-group">
+                                        <label for="_selectOffice">Chọn giao hàng tại bưu cục</label>
+                                        <select class="form-control ml-2 mr-3" name="office" id="office"
+                                            style="max-width: 150px;">
+                                            <option value="1">Tất cả đơn hàng</option>
+                                            <option value="2">Gửi hàng tại bưu cục</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="_sort">Sắp xếp theo</label>
+                                        <select class="form-control ml-2 mr-3" name="sortby" id="sortby">
+                                            <option value="1">Thu Uyen</option>
+                                            <option value="2">Thu Uyen</option>
+                                            <option value="3">Thu Uyen</option>
+                                            <option value="4">Thu Uyen</option>
+                                            <option value="5">Thu Uyen</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-danger">
+                                            <span><i class="fa fa-shopping-bag" aria-hidden="true"></i></span> Giao
+                                            hàng loạt
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <table class="table table-hover table-bordered"
+                                        style="max-width: 100%; margin-top: 20px">
+
+                                        <thead style="text-align: center">
+
+                                            <th>No</th>
+                                            <th style="width: 250px ;">Đơn hàng</th>
+                                            <th>Người nhận</th>
+                                            <th style="width: 250px ;">Địa chỉ</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for order,item in orderDone %}
+
+
+                                            <tr>
+                                                <td>{{order.id}}</td>
+                                                <td>{{item}}</td>
+                                                <td>{{order.deliveryAddress.receiver}}</td>
+                                                <td>{{order.deliveryAddress.address}}</td>
+                                                <td>{{order.statusNow}}</td>
+                                                <td>
+                                                    Xem
+
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-reason" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Hủy đơn hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="_reason">Nhập lý do hủy đơn</label>
+                            <textarea class="form-control" id="reason" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-success">Xác nhận</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xem chi tiết đơn hàng -->
+        <div class="modal fade" id="order-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Danh sách sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body form-group">
+                        <div class="col border-bottom pb-2">
+                            <table class="table table-bordered mt-4">
+                                <colgroup>
+                                    <col span="1" style="width: 60%" />
+                                    <col span="1" style="width: 15%" />
+                                    <col span="1" style="width: 10%" />
+                                    <col span="1" style="width: 15%" />
+                                </colgroup>
+                                <thead class="thead-dark">
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </thead>
+                                <tbody>
+                                    {% for citem, amount in items %}
+                                    <tr>
+                                        <td>{{citem.item.name}}</td>
+                                        <td>{{citem.item.price}}</td>
+                                        <td>{{citem.qty}}</td>
+                                        <td>{{amount}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</body>
+{% endblock content %}

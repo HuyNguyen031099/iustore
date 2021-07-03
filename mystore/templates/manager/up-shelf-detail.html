@@ -1,0 +1,50 @@
+{% extends 'manager/dashboard-base.html' %} {% block title %}
+<title>Lên kệ</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+<body>
+    <div class="container">
+        <form action="{% url 'mystore:up-shelf' %}" method="POST">
+            {% csrf_token %}
+            <h3>Đưa sản phẩm lên website</h3>
+            <div class="col form-group">
+                <label for="name">Tên sản phẩm</label>
+                <input class="form-control" name="name" id="name" type="text" value="{{product.name}}" readonly>
+            </div>
+            <div class="col form-group">
+                <label for="name">Giá nhập</label>
+                <input class="form-control" name="price" id="price" type="text" value="{{product.price}}" readonly>
+            </div>
+            <div class="col form-group">
+                <label for="stock">Trong kho</label>
+                <input class="form-control" name="stock" id="stock" type="text" value="{{product.qty_in_stock}}"
+                    readonly>
+            </div>
+            <div class="col form-group">
+                <label for="name">Giá bán</label>
+                <input class="form-control" name="price-sale" id="price-sale" type="text" required>
+            </div>
+            <div class="col form-row">
+                <div class="col">
+                    <label for="name">Discount</label>
+                    <input class="form-control" name="discount" id="discount" type="text" required>
+                </div>
+                <div class="col form-group">
+                    <label for="fromDate">Từ ngày</label>
+                    <input type="date" class="form-control" name="fromdate" required>
+                </div>
+                <div class="col form-group">
+                    <label for="toDate">Đến ngày</label>
+                    <input type="date" class="form-control" name="todate" required>
+                </div>
+            </div>
+            <div class="col form-group">
+                <button type="submit" class="btn btn-info">Đưa lên website</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock content %}

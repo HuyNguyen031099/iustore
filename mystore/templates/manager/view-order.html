@@ -1,0 +1,89 @@
+{% extends 'manager/dashboard-base.html' %} 
+{% load number_format %}{% block title %}
+<title>Thêm mới sản phẩm</title>
+{% endblock title %}
+{% block content %}
+<!-- Main content -->
+
+
+<body>
+    <div class="container bg-light mt-2 pt-2">
+        <h3 class="border-bottom pb-2">Hóa đơn chi tiết</h3>
+        <div class="row mt-5 border-bottom pb-1">
+            <div class="col form-group">
+                <p style="font-weight: 600;">Mã đơn hàng: {{order.id}}</p>
+                <p style="font-weight: 600;">Ngày mua: {{order.created_date|date:'Y-m-d h:m'}}</p>
+            </div>
+            <div class="col form-group">
+                <h4>Khách hàng</h4>
+                <div><label class="col" for="customer" style="font-size: large;">{{customer.name}}</label></div>
+                <div><label class="col" for="email">{{customer.email}}</label></div>
+                <div><label class="col" for="address">{{customer.address.address}}</label></div>
+                <div><label class="col" for="phone">{{customer.phone}}</label></div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <h4>Chi tiết hóa đơn</h4>
+            {% comment %} <table class="table table-borderless" style="max-width: 250px;">
+                <tr>
+                    <td>Mã hóa đơn</td>
+                    <td>INV123</td>
+                </tr>
+                <tr>
+                    <td>Ngày tạo</td>
+                    <td>04/06/2021</td>
+                </tr>
+                <tr>
+                    <td>Ngày giao hàng</td>
+                    <td>05/06/2021</td>
+                </tr>
+            </table> {% endcomment %}
+
+            <div class="col border-bottom pb-2">
+                <table class="table table-bordered mt-4">
+                    <colgroup>
+                        <col span="1" style="width: 60%" />
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 10%" />
+                        <col span="1" style="width: 15%" />
+                    </colgroup>
+                    <thead class="thead-dark">
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                    </thead>
+                    <tbody>
+                        {% for citem, amount in items %}
+                        <tr>
+                            <td>{{citem.item.name}}</td>
+                            <td>{{citem.item.price|int_format}}</td>
+                            <td>{{citem.qty}}</td>
+                            <td>{{amount |int_format}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <table class="table table-borderless" style="max-width: 300px; float: right;">
+                <tr>
+                    <td>Tạm tính</td>
+                    <td>{{subtotal|int_format}} VND</td>
+                </tr>
+                <tr>
+                    <td>Thuế (5%)</td>
+                    <td>{{tax|int_format}} VND</td>
+                </tr>
+                <tr style="font-size: larger; font-weight: bold;">
+                    <td>Tổng</td>
+                    <td>{{total|int_format}} VND</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}
